@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Events </h1>
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add an event 
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Modal</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+				<form method="POST" action="{{url_for('system.eventAdd')}}">
+						
+					{{form.hidden_tag()}}
+						
+					<div class="form-group">
+						{{form.event.label(class='form-control')}}
+						{{form.event(class='form-control')}}
+						
+					</div>
+					<div class="form-group">
+						{{form.module.label(class='form-control') }}
+						{{form.module(class='form-control')}}
+						
+					</div>
+					<div class="form-group">
+						{{form.date.label(class='form-control')}}
+						{{form.date(class='form-control')}}
+					</div>
+					
+					<div class="form-group">
+						{{form.hour.label(class='form-control')}}
+						{{form.hour(class='form-control')}}
+					</div>
+
+					<div class="modal-footer">
+						{{ form.submit(class="btn btn-primary") }}
+					</div>
+
+				</form>
+
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Event</th>
+                    <th scope="col">Module</th>
+					<th scope="col">Date</th>
+					<th scope="col">Hour</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+
+			{% for our_event in our_events %}
+				<tbody>
+			
+					<tr>
+						<th scope="row">{{our_event.id}}</th>
+						<td>{{our_event.event}}</td>
+                        <td>{{our_event.module}}</td>
+						<td>{{our_event.date.date()}}</td>
+						<td>{{our_event.hour}}</td>
+						<td> <button type="submit" class="btn "  >
+                            <a href="{{url_for('system.eventDelete', id=our_event.id)}}" >
+                              {{form.hidden_tag()}}
+                              <ion-icon name="trash-outline"></ion-icon>
+                            </a>
+                          </button></td>
+						
+						</tr>
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+	
+			
+
+		
+
+{% endblock %}

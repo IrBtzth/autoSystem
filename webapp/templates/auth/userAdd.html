@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Users Profile </h1>
+
+        {{value}}
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add an user
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Modal</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+				<form method="POST" action="{{url_for('auth.userAdd')}}">
+						
+                    {{form.hidden_tag()}}
+                    <div class="form-group">
+                        {{form.username.label(class="form-control")}}
+                        {{form.username(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.name.label(class="form-control")}}
+                        {{form.name(class="form-control"  )}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.lastName.label( class="form-control")}}
+                        {{form.lastName(class="form-control")}}
+                    
+                    </div>
+                    <div class="form-group">   
+                              {{form.role_button.label()}}
+                              {{form.role_button(class="form-control")}}
+                                
+                    </div>
+                    <div class="form-group">
+                        {{form.password_hash.label( class="form-control name=label")}}
+                        {{form.password_hash(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.password_hash2.label( class="form-control name=label")}}
+                        {{form.password_hash2(class="form-control")}}
+                        
+                    </div>
+                
+                    <div class="modal-footer">
+                        
+                        {{form.submit(class="btn btn-primary")}}
+                    </div>
+
+				</form>
+
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">{{form.username.label(scope="col")}}</th>
+                      <th scope="col">{{form.name.label(scope="col")}}</th>
+                      <th scope="col">{{form.lastName.label(scope="col")}}</th>
+                      <th scope="col">{{form.role_button.label(scope="col")}}</th>
+                      <th scope="col">{{form.password_hash.label(scope="col")}}</th>
+                      <th scope="col"></th>
+                      </tr>
+                
+			</thead>
+
+			{% for our_user in our_users %}
+				<tbody>
+			
+					<tr>
+						
+                            <th scope="row">{{our_user.id}}</th>
+                            <td>{{our_user.username}}</td>
+                            <td>{{our_user.name}}</td>
+                            <td>{{our_user.lastName}}</td>
+                            <td>{{our_user.roles.__getitem__(0).name}}</td>
+                        
+                            
+                            <td>{{our_user.password_hash | truncate(10)}}</td>
+                            
+                            
+                        <td>
+                            
+                            {% include 'modals-btn.html' %}
+                        </td>
+                          </tr>
+						
+						
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+
+	
+			
+
+		
+
+{% endblock %}

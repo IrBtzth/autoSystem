@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Portafolios proyects </h1>
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add Portafolio 
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Modal</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+				<form method="POST" action="{{url_for('system.portfAdd')}}">
+						
+					{{form.hidden_tag()}}
+						
+					<div class="form-group">
+						{{form.description.label(class='form-control')}}
+						{{form.description(class='form-control')}}
+						
+					</div>
+					<div class="form-group">
+						{{form.portfStart.label(class='form-control') }}
+						{{form.portfStart(class='form-control')}}
+						
+					</div>
+					<div class="form-group">
+						{{form.portFinish.label(class='form-control')}}
+						{{form.portFinish(class='form-control')}}
+					</div>
+					
+					</div>
+
+					<div class="modal-footer">
+						{{ form.submit(class="btn btn-primary") }}
+					</div>
+
+				</form>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Description</th>
+					<th scope="col">Start</th>
+					<th scope="col">Finish</th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+
+			{% for our_portf in our_portfs %}
+				<tbody>
+			
+					<tr>
+						<th scope="row">{{our_portf.id}}</th>
+						<td>{{our_portf.description}}</td>
+						<td>{{our_portf.portfStart.date()}}</td>
+						<td>{{our_portf.portFinish.date()}}</td>
+						<td>{% include 'system/modal-btns.html' %}</td>
+						
+						</tr>
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+	
+			
+
+		
+
+{% endblock %}
