@@ -132,3 +132,8 @@ def userAdd():
         our_users=our_users,
         roles=roles
     )
+    
+@auth_blueprint.route('/search',methods=['GET', 'POST'])
+def search():
+    pass
+

@@ -23,9 +23,11 @@ def create_app(object_name):
   
     from .system import create_module as system_create_module
     from .auth import create_module as auth_create_module
+    from .searched import create_module as searched_create_module
     from .main import create_module as main_create_module
     auth_create_module(app)
     system_create_module(app)
+    searched_create_module(app)
     main_create_module(app)
 
     return app

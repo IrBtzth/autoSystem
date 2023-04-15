@@ -20,9 +20,16 @@
         <a href="{{url_for('system.events')}}" class="list-group-item list-group-item-action list-group-item-info"
           ><i class="fas fa-chart-line fa-fw me-3"></i><span>Events</span></a
         >
+        <a href="{{url_for('system.addCustomer')}}"  class="list-group-item list-group-item-action list-group-item-info">
+          <i class="fas fa-chart-pie fa-fw me-3"></i><span>Customer Data</span>
+        </a>
+        <a href="{{url_for('system.carData')}}"  class="list-group-item list-group-item-action list-group-item-info">
+          <i class="fas fa-chart-pie fa-fw me-3"></i><span>Car Data</span>
+        </a>
         <a href="{{url_for('auth.login')}}"  class="list-group-item list-group-item-action list-group-item-info">
           <i class="fas fa-chart-pie fa-fw me-3"></i><span>Login</span>
         </a>
+
         
         
       </div>
@@ -57,16 +64,24 @@
         />
       </a>
       <!-- Search form -->
-      <form class="d-none d-md-flex input-group w-auto my-auto">
+      {% set page = ['system.addCustomer', 'system.events','system.portfs','system.carData','auth.userAdd'] %}
+      {%for i in page %}
+      {% if request.url_rule.endpoint == i%}
+      <form method="POST" action="{{url_for('searched.search')}}"  class="d-none d-md-flex input-group w-auto my-auto">
+        {{form.hidden_tag()}}
         <input
           autocomplete="off"
           type="search"
           class="form-control rounded"
-          placeholder='Search (ctrl + "/" to focus)'
+          placeholder='Search in {{i.replace("system.","")}}'
           style="min-width: 225px;"
+          name="searched"
         />
+        <input type="hidden" value="{{i}}" name="page"></input>
         <span class="input-group-text border-0"><i class="fas fa-search"></i></span>
       </form>
+      {%endif%}
+      {%endfor%}
 
       <!-- Right links -->
       <ul class="navbar-nav ms-auto d-flex flex-row">

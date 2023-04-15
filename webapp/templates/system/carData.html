@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Car Data </h1>
+
+        {{value}}
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add data car
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Modal</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+				<form method="POST" action="{{url_for('system.addCustomer')}}">
+						
+                    {{form.hidden_tag()}}
+                    
+                    </div>
+                    <div class="form-group">
+                        {{form.carID.label(class="form-control")}}
+                        {{form.carID(class="form-control"  )}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.plate.label( class="form-control")}}
+                        {{form.plate(class="form-control")}}
+                    
+                    </div>
+                    <div class="form-group">   
+                        {{form.brand.label()}}
+                        {{form.brand(class="form-control")}}
+                                
+                    </div>
+                    <div class="form-group">
+                        {{form.model.label( class="form-control name=label")}}
+                        {{form.model(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.year.label( class="form-control name=label")}}
+                        {{form.year(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.serialBodywork.label( class="form-control name=label")}}
+                        {{form.serialBodywork(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.serialMotor.label( class="form-control name=label")}}
+                        {{form.serialMotor(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.color.label( class="form-control name=label")}}
+                        {{form.color(class="form-control")}}
+                        
+                    </div>
+                    <div class="form-group">
+                        {{form.problem.label( class="form-control name=label")}}
+                        {{form.problem(class="form-control")}}
+                        
+                    </div>
+                
+                    <div class="modal-footer">
+                        
+                        {{form.submit(class="btn btn-primary")}}
+                    </div>
+
+				</form>
+
+				</div>
+			</div>
+		</div>
+		</div>
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">{{form.carID.label(scope="col")}}</th>
+                      <th scope="col">{{form.plate.label(scope="col")}}</th>
+                      <th scope="col">{{form.brand.label(scope="col")}}</th>
+                      <th scope="col">{{form.model.label(scope="col")}}</th>
+                      <th scope="col">{{form.year.label(scope="col")}}</th>
+                      <th scope="col">{{form.serialBodywork.label(scope="col")}}</th>
+                      <th scope="col">{{form.serialMotor.label(scope="col")}}</th>
+                      <th scope="col">{{form.color.label(scope="col")}}</th>
+                      <th scope="col">{{form.problem.label(scope="col")}}</th>
+                      <th scope="col"></th>
+                      </tr>
+                
+			</thead>
+
+			{% for our_car in our_cars %}
+				<tbody>
+			
+					<tr>
+						
+                            <th scope="row">{{our_car.id}}</th>
+                            
+                            <td>{{our_car.carID}}</td>
+                            <td>{{our_car.plate}}</td>
+                            <td>{{our_car.brand}}</td>
+                            <td>{{our_car.model}}</td>
+                            <td>{{our_car.year}}</td>
+                            <td>{{our_car.serialBodywork}}</td>
+                            <td>{{our_car.serialMotor}}</td>
+                            <td>{{our_car.color}}</td>
+                            <td>{{our_car.problem}}</td>
+                            
+                            
+                        <td>
+                            
+                            {% include 'system/car-modals-btn.html' %}
+                        </td>
+                          </tr>
+						
+						
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+
+	
+			
+
+		
+
+{% endblock %}

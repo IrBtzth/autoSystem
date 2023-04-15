@@ -1,0 +1,88 @@
+<!--Edit Button-->
+<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_customer.id}}">
+    <ion-icon name="create-outline"></ion-icon>
+  </button>
+  
+  <!--Edit Modal-->		
+    
+  <div class="modal fade" id="editModal{{our_customer.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header">
+      <h5 class="modal-title" id="createModalLabel">Modal title</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      </div>
+      <div class="modal-body">
+        <form class="row g-3" method="POST" action="{{url_for('system.carDataEdit', id=our_customer.id)}}">
+              
+              {{form.hidden_tag()}}
+                  
+              <div class="form-group" >
+                  {{form.carID.label(class='form-control')}}
+                  {{form.carID(class='form-control', value=our_customer.description)}}
+                  
+              </div>
+              <div class="form-group">
+                  {{form.plate.label(class='form-control') }}
+                  {{form.plate(class='form-control', value=our_customer.name)}}
+                  
+              </div>
+              <div class="form-group">
+                {{form.brand.label(class='form-control') }}
+                {{form.brand(class='form-control', value=our_customer.name)}}
+                
+            </div>
+            <div class="form-group">
+                {{form.model.label(class='form-control') }}
+                {{form.model(class='form-control', value=our_customer.name)}}
+                
+            </div>
+              <div class="form-group">
+                  {{form.year.label(class='form-control')}}
+                  {{form.year(class='form-control', value=our_customer.lastName)}}
+              </div>
+                    <div class="form-group">
+                      {{form.serialBodywork.label(class='form-control')}}
+                      {{form.serialBodywork(class='form-control', value=our_customer.lastName)}}
+                  </div>  
+                  <div class="form-group">
+                    {{form.serialMotor.label(class='form-control')}}
+                    {{form.serialMotor(class='form-control', value=our_customer.lastName)}}
+                </div>
+                <div class="form-group">
+                  {{form.color.label(class='form-control')}}
+                  {{form.color(class='form-control', value=our_customer.lastName)}}
+              </div>
+              <div class="form-group">
+                {{form.problem.label(class='form-control')}}
+                {{form.problem(class='form-control', value=our_customer.lastName)}}
+            </div>
+
+
+              <div class="modal-footer text-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                {{form.submit(class=" btn")}}
+              </div>
+              
+            </form>
+    </div>
+  
+    </div>
+  </div>
+  
+  
+  <!--Delete Button-->
+  
+    
+      <button type="submit" class="btn btn-light" >
+      <a href="{{url_for('system.carDataDelete', id=our_car.id)}}">
+        {{form.hidden_tag()}}
+        <ion-icon name='close'></ion-icon>
+      </a>
+    </button>
+    
+  
+  
+  

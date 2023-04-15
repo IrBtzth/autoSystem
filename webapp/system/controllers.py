@@ -2,12 +2,12 @@ from datetime import datetime
 from sqlalchemy import desc, func
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, abort, request
 from flask_login import login_required, current_user
-from .models import db, Portfs, Events
+from .models import db, Portfs, Events, Customers, Cars
 from ..auth.models import Users,Role
 from ..auth import has_role
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from .forms import  PortForm, EventsForm
+from .forms import  PortForm, EventsForm, CustomerForm,CarsForm
 
 
 system_blueprint = Blueprint(
@@ -15,6 +15,153 @@ system_blueprint = Blueprint(
     __name__,
     template_folder='../templates'
 )
+
+@system_blueprint.route('/carData/carDataDelete/<int:id>',methods=['GET', 'POST'])
+def carDataDelete(id):
+    
+    form= CarsForm()
+    car_to_delete = Cars.query.get_or_404(id)
+    
+    try:
+        db.session.delete(car_to_delete)
+        db.session.commit()
+        flash("Car data Deleted")
+        
+        our_cars=Cars.query.order_by(Cars.id)
+        return render_template("carData.html", form=form,our_cars=our_cars)
+    except:
+        flash('There was a problem deleting your car data')
+        return render_template("system/carData.html", form=form,our_cars=our_cars)
+
+
+@system_blueprint.route('/carData/carDataEdit/<int:id>', methods = ['GET', 'POST'])   
+def carDataEdit(id):
+    
+    form=CarsForm()
+
+    if form.validate_on_submit():
+        
+        car= Cars.query.get_or_404(id)
+
+        car.carID = form.carID.data 
+        car.plate = form.plate.data 
+        car.brand = form.brand.data 
+        car.model = form.model.data 
+        car.year = form.year.data 
+        car.serialBodywork = form.serialBodywork.data 
+        car.serialMotor = form.serialMotor.data 
+        car.color = form.color.data 
+        car.problem = form.problem.data 
+            
+        db.session.add(car)
+        db.session.commit()
+        
+    return redirect(url_for('system.carData'))
+
+
+@system_blueprint.route('/addCar',methods=['GET', 'POST'])
+def addCar():
+    
+    form = CarsForm()
+    
+    
+    if form.validate_on_submit():
+
+        car = Cars.query.filter_by(username=form.name.data).first()
+        if car is None:
+        
+            car = Cars( 
+                carID=form.carID.data, plate=form.plate.data, brand = form.brand.data,
+                model=form.model.data,year=form.year.data, serialBodywork=form.serialBodywork.data, 
+                serialMotor=form.serialMotor.data, color=form.color.data,
+                problem=form.problem.data
+            )
+            db.session.add(car)
+            db.session.commit()
+
+        form.name.data = ''
+        form.carID.data = ''
+        form.plate.data = ''
+        form.brand.data = ''
+        form.model.data = ''
+        form.year.data = ''
+        form.serialBodywork.data = ''
+        form.serialMotor.data = ''
+        form.color.data = ''
+        form.problem.data = ''
+
+
+        flash("Data car Added Successfully!")
+
+    our_cars = Cars.query.order_by(Cars.id)
+    return redirect(url_for('system.carData')) 
+    
+
+@system_blueprint.route('/carData/',methods=['GET', 'POST'])
+def carData():
+    form=CarsForm()
+    our_cars = Cars.query.order_by(Cars.id)    
+
+    return render_template('system/carData.html',form=form,our_cars=our_cars)
+
+@system_blueprint.route('/addCustomer/customerEdit/<int:id>', methods = ['GET', 'POST'])   
+def customerEdit(id):
+    
+    form=CustomerForm()
+
+    if form.validate_on_submit():
+
+        customer= Customers.query.get_or_404(id)
+
+        customer.name = form.name.data 
+        customer.lastName = form.lastName.data 
+        customer.dateBirth = form.dateBirth.data 
+        customer.description = form.description.data 
+        customer.email = form.email.data 
+        customer.cellNumber = form.cellNumber.data  
+        customer.customerID = form.customerID.data  
+       
+        db.session.commit()
+        return redirect(url_for('system.addCustomer'))
+
+@system_blueprint.route('/addCustomer',methods=['GET', 'POST'])
+def addCustomer():
+    
+    form = CustomerForm()
+    
+    
+    if form.validate_on_submit():
+
+        customer = Customers.query.filter_by(name=form.name.data).first()
+        if customer is None:
+        
+            customer = Customers( 
+                name=form.name.data, lastName=form.lastName.data, dateBirth = form.dateBirth.data,
+                description=form.description.data,email=form.email.data, cellNumber=form.cellNumber.data,
+                customerID=form.customerID.data
+            )
+            db.session.add(customer)
+            db.session.commit()
+
+        form.name.data = ''
+        form.lastName.data = ''
+        form.dateBirth.data = ''
+        form.description.data = ''
+        form.email.data = ''
+        form.cellNumber.data = ''
+        form.customerID.data = ''
+
+
+        flash("Customer Added Successfully!")
+
+    our_customers = Customers.query.order_by(Customers.id)
+
+    return render_template(
+        'system/customerData.html',
+        form=form,
+        our_customers=our_customers
+    )
+
 
 
 @system_blueprint.route('/events/eventDelete/<int:id>',methods=['GET', 'POST'])
@@ -57,6 +204,7 @@ def eventAdd():
     return redirect(url_for('system.events')) 
 
 
+
 @system_blueprint.route('/events/',methods=['GET', 'POST'])
 def events():
 
@@ -89,10 +237,24 @@ def portfDelete(id):
 @has_role('Admin')
 def portfs():
     form=PortForm()
-    our_portfs= Portfs.query.order_by(Portfs.id)
-    
+    our_portfs= Portfs.query.order_by(Portfs.id)    
     
     return render_template('system/portfs.html', our_portfs=our_portfs, form=form,datetime=datetime)
+
+@system_blueprint.route('/portfs/portfRunButton/<int:id>', methods = ['GET', 'POST'])   
+def portfRunButton(id):
+    
+    portf= Portfs.query.get_or_404(id)
+    if portf.state== False:
+        portf.state = True
+    else:
+        portf.state = False
+    db.session.add(portf)
+    db.session.commit()
+
+    
+    return redirect(url_for('system.portfs'))
+
 
 @system_blueprint.route('/portfs/portfAdd',methods=['POST', 'GET'])
 def portfAdd():

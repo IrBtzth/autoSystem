@@ -1,4 +1,5 @@
 <!--Edit Button-->
+{%if our_portf.state == True%}
 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_portf.id}}">
   <ion-icon name="create-outline"></ion-icon>
 </button>
@@ -44,19 +45,43 @@
 
   </div>
 </div>
+{%else %}
+<button disabled class="btn btn-secondary"  >
+  <ion-icon name="create-outline"></ion-icon>
+</button>
+{%endif%}
+
 <!--Delete Button-->
 
-  <button type="submit" class="btn btn-light" >
+  
+    {%if our_portf.state == True%}
+    <button type="submit" class="btn btn-light" >
     <a href="{{url_for('system.portfDelete', id=our_portf.id)}}">
       {{form.hidden_tag()}}
       <ion-icon name='close'></ion-icon>
     </a>
   </button>
+    {%else%}
+    <button disabled class="btn btn-secondary"  >
+        <ion-icon name='close'></ion-icon>
+      </button>
+    {%endif%}
+  
 
 
 <!--Run Button-->
 <button type="button" class="btn btn-light">
-  <ion-icon name="caret-forward-circle-outline"></ion-icon>
+  
+  <a href="{{url_for('system.portfRunButton', id=our_portf.id)}}">
+    {{form.hidden_tag()}}
+    {%if our_portf.state == True%}
+      
+      <ion-icon name="stop-circle-outline"></ion-icon>
+    {%else%}
+      <ion-icon name="caret-forward-circle-outline"></ion-icon>
+    
+    {%endif%}
+  </a>
   </button>
 
 
