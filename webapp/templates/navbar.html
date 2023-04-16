@@ -20,10 +20,10 @@
         <a href="{{url_for('system.events')}}" class="list-group-item list-group-item-action list-group-item-info"
           ><i class="fas fa-chart-line fa-fw me-3"></i><span>Events</span></a
         >
-        <a href="{{url_for('system.addCustomer')}}"  class="list-group-item list-group-item-action list-group-item-info">
+        <a href="{{url_for('system.customers')}}"  class="list-group-item list-group-item-action list-group-item-info">
           <i class="fas fa-chart-pie fa-fw me-3"></i><span>Customer Data</span>
         </a>
-        <a href="{{url_for('system.carData')}}"  class="list-group-item list-group-item-action list-group-item-info">
+        <a href="{{url_for('system.cars')}}"  class="list-group-item list-group-item-action list-group-item-info">
           <i class="fas fa-chart-pie fa-fw me-3"></i><span>Car Data</span>
         </a>
         <a href="{{url_for('auth.login')}}"  class="list-group-item list-group-item-action list-group-item-info">
@@ -64,7 +64,7 @@
         />
       </a>
       <!-- Search form -->
-      {% set page = ['system.addCustomer', 'system.events','system.portfs','system.carData','auth.userAdd'] %}
+      {% set page = ['system.customers', 'system.events','system.portfs','system.cars','auth.userAdd'] %}
       {%for i in page %}
       {% if request.url_rule.endpoint == i%}
       <form method="POST" action="{{url_for('searched.search')}}"  class="d-none d-md-flex input-group w-auto my-auto">

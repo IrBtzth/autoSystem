@@ -16,8 +16,8 @@ system_blueprint = Blueprint(
     template_folder='../templates'
 )
 
-@system_blueprint.route('/carData/carDataDelete/<int:id>',methods=['GET', 'POST'])
-def carDataDelete(id):
+@system_blueprint.route('/cars/carsDelete/<int:id>',methods=['GET', 'POST'])
+def carsDelete(id):
     
     form= CarsForm()
     car_to_delete = Cars.query.get_or_404(id)
@@ -28,14 +28,14 @@ def carDataDelete(id):
         flash("Car data Deleted")
         
         our_cars=Cars.query.order_by(Cars.id)
-        return render_template("carData.html", form=form,our_cars=our_cars)
+        return render_template("cars.html", form=form,our_cars=our_cars)
     except:
         flash('There was a problem deleting your car data')
-        return render_template("system/carData.html", form=form,our_cars=our_cars)
+        return render_template("system/cars.html", form=form,our_cars=our_cars)
 
 
-@system_blueprint.route('/carData/carDataEdit/<int:id>', methods = ['GET', 'POST'])   
-def carDataEdit(id):
+@system_blueprint.route('/cars/carsEdit/<int:id>', methods = ['GET', 'POST'])   
+def carsEdit(id):
     
     form=CarsForm()
 
@@ -56,11 +56,11 @@ def carDataEdit(id):
         db.session.add(car)
         db.session.commit()
         
-    return redirect(url_for('system.carData'))
+    return redirect(url_for('system.cars'))
 
 
-@system_blueprint.route('/addCar',methods=['GET', 'POST'])
-def addCar():
+@system_blueprint.route('/cars/addCars',methods=['GET', 'POST'])
+def addCars():
     
     form = CarsForm()
     
@@ -94,18 +94,35 @@ def addCar():
         flash("Data car Added Successfully!")
 
     our_cars = Cars.query.order_by(Cars.id)
-    return redirect(url_for('system.carData')) 
+    return redirect(url_for('system.cars')) 
     
 
-@system_blueprint.route('/carData/',methods=['GET', 'POST'])
-def carData():
+@system_blueprint.route('/cars/',methods=['GET', 'POST'])
+def cars():
     form=CarsForm()
     our_cars = Cars.query.order_by(Cars.id)    
 
-    return render_template('system/carData.html',form=form,our_cars=our_cars)
+    return render_template('system/cars.html',form=form,our_cars=our_cars)
 
-@system_blueprint.route('/addCustomer/customerEdit/<int:id>', methods = ['GET', 'POST'])   
-def customerEdit(id):
+@system_blueprint.route('/customers/customersDelete/<int:id>',methods=['GET', 'POST'])
+def customersDelete(id):
+    
+    form= CustomersForm()
+    customers_to_delete = Customers.query.get_or_404(id)
+    
+    try:
+        db.session.delete(customers_to_delete)
+        db.session.commit()
+        flash("Customer data Deleted")
+        
+        our_customers=Customers.query.order_by(Customers.id)
+        return render_template("customers.html", form=form,our_customers=our_customers)
+    except:
+        flash('There was a problem deleting your customers data')
+        return render_template("system/customers.html", form=form,our_customers=our_customers)
+
+@system_blueprint.route('/customers/customersEdit/<int:id>', methods = ['GET', 'POST'])   
+def customersEdit(id):
     
     form=CustomerForm()
 
@@ -122,9 +139,9 @@ def customerEdit(id):
         customer.customerID = form.customerID.data  
        
         db.session.commit()
-        return redirect(url_for('system.addCustomer'))
+        return redirect(url_for('system.customers'))
 
-@system_blueprint.route('/addCustomer',methods=['GET', 'POST'])
+@system_blueprint.route('/customers/addCustomer',methods=['GET', 'POST'])
 def addCustomer():
     
     form = CustomerForm()
@@ -156,11 +173,15 @@ def addCustomer():
 
     our_customers = Customers.query.order_by(Customers.id)
 
-    return render_template(
-        'system/customerData.html',
-        form=form,
-        our_customers=our_customers
-    )
+    return redirect(url_for('system.customers'))
+
+@system_blueprint.route('/customers/',methods=['GET', 'POST'])
+def customers():
+
+    form=CustomerForm()
+    our_customers= Customers.query.order_by(Customers.id)
+    
+    return render_template('system/customers.html', our_customers=our_customers, form=form,datetime=datetime)
 
 
 

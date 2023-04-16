@@ -38,7 +38,7 @@
 				</div>
 		<div class="modal-body">
 	
-				<form method="POST" action="{{url_for('system.addCustomer')}}">
+				<form method="POST" action="{{url_for('system.customers')}}">
 						
                     {{form.hidden_tag()}}
                     
@@ -127,7 +127,7 @@
                             
                         <td>
                             
-                            {% include 'system/customer-modals-btn.html' %}
+                            {% include 'system/customers-modals-btn.html' %}
                         </td>
                           </tr>
 						

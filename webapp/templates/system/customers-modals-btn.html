@@ -15,7 +15,7 @@
     </button>
     </div>
     <div class="modal-body">
-      <form class="row g-3" method="POST" action="{{url_for('system.customerEdit', id=our_customer.id)}}">
+      <form class="row g-3" method="POST" action="{{url_for('system.customersEdit', id=our_customer.id)}}">
             
             {{form.hidden_tag()}}
                 
@@ -80,7 +80,7 @@
 
   
     <button type="submit" class="btn btn-light" >
-    <a href="{{url_for('system.portfEdit', id=our_customer.id)}}">
+    <a href="{{url_for('system.customersDelete', id=our_customer.id)}}">
       {{form.hidden_tag()}}
       <ion-icon name='close'></ion-icon>
     </a>

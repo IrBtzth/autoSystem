@@ -21,30 +21,18 @@
 		<!-- TABLE -->
 
 		<table class="table table-hover table" >
-			<thead class="thead">
-				<tr>
-					<th scope="col">Id</th>
-					<th scope="col">Description</th>
-					<th scope="col">Start</th>
-					<th scope="col">Finish</th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
 
-			{% for i in search %}
-				<tbody>
+			{% for model in models_filtered %}
+			<tbody>
+				{%for attr in attrs_filtered%}
 			
-					<tr>
-						<th scope="row">{{i.id}}</th>
-						<td>{{i.description}}</td>
-						<td>{{i.name}}</td>
-						<td>{{i.lastName}}</td>
-						
-						</tr>
-				</tbody>
-	
+					<td>{{getattr(model,attr)}}</td>			
+				
+				{%endfor%}
+			</tbody>
 			{%endfor%}
-</table>
+			
+		</table>
 
 	
 			
