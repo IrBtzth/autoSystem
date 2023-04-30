@@ -6,7 +6,7 @@ from .models import db, Portfs, Events, Customers, Cars
 from ..auth.models import Users,Role
 from ..auth import has_role
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from ..searched.forms import SearchForm
 from .forms import  PortForm, EventsForm, CustomerForm,CarsForm
 
 
@@ -119,7 +119,7 @@ def customersDelete(id):
         return render_template("customers.html", form=form,our_customers=our_customers)
     except:
         flash('There was a problem deleting your customers data')
-        return render_template("system/customers.html", form=form,our_customers=our_customers)
+        return render_template("system/customers.html", form=form,our_models=our_customers)
 
 @system_blueprint.route('/customers/customersEdit/<int:id>', methods = ['GET', 'POST'])   
 def customersEdit(id):
@@ -179,9 +179,10 @@ def addCustomer():
 def customers():
 
     form=CustomerForm()
+    searchForm=SearchForm()
     our_customers= Customers.query.order_by(Customers.id)
     
-    return render_template('system/customers.html', our_customers=our_customers, form=form,datetime=datetime)
+    return render_template('system/customers.html', our_models=our_customers,SearchForm=searchForm, form=form,datetime=datetime)
 
 
 
@@ -230,9 +231,10 @@ def eventAdd():
 def events():
 
     form=EventsForm()
+    searchForm = SearchForm()
     our_events= Events.query.order_by(Events.id)
     
-    return render_template('system/events.html', our_events=our_events, form=form,datetime=datetime)
+    return render_template('system/events.html', our_models=our_events, form=form, SearchForm=searchForm ,datetime=datetime)
 
 
 @system_blueprint.route('/portfs/portfDelete/<int:id>',methods=['GET', 'POST'])
@@ -258,9 +260,10 @@ def portfDelete(id):
 @has_role('Admin')
 def portfs():
     form=PortForm()
-    our_portfs= Portfs.query.order_by(Portfs.id)    
+    our_portfs= Portfs.query.order_by(Portfs.id) 
+    searchForm=SearchForm() 
     
-    return render_template('system/portfs.html', our_portfs=our_portfs, form=form,datetime=datetime)
+    return render_template('system/portfs.html', our_portfs=our_portfs, SearchForm=searchForm, form=form,datetime=datetime)
 
 @system_blueprint.route('/portfs/portfRunButton/<int:id>', methods = ['GET', 'POST'])   
 def portfRunButton(id):

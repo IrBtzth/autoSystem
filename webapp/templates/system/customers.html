@@ -109,20 +109,12 @@
                 
 			</thead>
 
-			{% for our_customer in our_customers %}
+			{% for our_model in our_models %}
 				<tbody>
 			
 					<tr>
 						
-                            <th scope="row">{{our_customer.id}}</th>
-                            
-                            <td>{{our_customer.name}}</td>
-                            <td>{{our_customer.lastName}}</td>
-                            <td>{{our_customer.dateBirth}}</td>
-                            <td>{{our_customer.description}}</td>
-                            <td>{{our_customer.email}}</td>
-                            <td>{{our_customer.cellNumber}}</td>
-                            <td>{{our_customer.customerID}}</td>
+                        {% include 'system/tables/customers-table.html' %}
                             
                             
                         <td>

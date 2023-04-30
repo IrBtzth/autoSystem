@@ -17,18 +17,34 @@
 
 		<br/>
 
-
 		<!-- TABLE -->
 
 		<table class="table table-hover table" >
 
-			{% for model in models_filtered %}
+			{% for our_model in our_models %}
 			<tbody>
-				{%for attr in attrs_filtered%}
-			
-					<td>{{getattr(model,attr)}}</td>			
 				
-				{%endfor%}
+				{% if page ==  'system.events'%}
+
+				{% include 'system/tables/events-table.html' %}
+
+				{% elif page ==  'system.customers'%}
+
+				{% include 'system/tables/customers-table.html' %}
+
+				{% elif page ==  'system.portfs'%}
+
+				{% include 'system/tables/portfs-table.html' %}
+
+				{% elif page ==  'auth.userAdd'%}
+
+				{% include 'system/tables/users-table.html' %}
+
+				{% else %}
+				
+				<p>We could find anything</p>
+
+				{%endif%}
 			</tbody>
 			{%endfor%}
 			

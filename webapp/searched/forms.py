@@ -5,5 +5,5 @@ from wtforms.validators import DataRequired, Length, EqualTo, URL
 
 class SearchForm(Form):
     
-    searched = StringField('Searched:', validators=[DataRequired()])
+    bar_search = StringField('Searched:', validators=[DataRequired()])
     submit = SubmitField('Submit')

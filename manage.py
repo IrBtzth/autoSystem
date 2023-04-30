@@ -12,7 +12,7 @@ def make_shell_context():
 
 '''
 from manage import app,db
-from webapp.system.models import Users, Portfs, Events
+from webapp.system.models import Users, Portfs, Events,Customers,Cars
 from webapp.auth.models import Users, Role
 app.app_context().push()
 from datetime import datetime

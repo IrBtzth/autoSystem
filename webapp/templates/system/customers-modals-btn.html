@@ -1,11 +1,11 @@
 <!--Edit Button-->
-<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_customer.id}}">
+<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_model.id}}">
   <ion-icon name="create-outline"></ion-icon>
 </button>
 
 <!--Edit Modal-->		
   
-<div class="modal fade" id="editModal{{our_customer.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal{{our_model.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
   <div class="modal-content ">
     <div class="modal-header">
@@ -15,53 +15,53 @@
     </button>
     </div>
     <div class="modal-body">
-      <form class="row g-3" method="POST" action="{{url_for('system.customersEdit', id=our_customer.id)}}">
+      <form class="row g-3" method="POST" action="{{url_for('system.customersEdit', id=our_model.id)}}">
             
             {{form.hidden_tag()}}
                 
             <div class="form-group" >
                 {{form.description.label(class='form-control')}}
-                {{form.description(class='form-control', value=our_customer.description)}}
+                {{form.description(class='form-control', value=our_model.description)}}
                 
             </div>
             <div class="form-group">
                 {{form.name.label(class='form-control') }}
-                {{form.name(class='form-control', value=our_customer.name)}}
+                {{form.name(class='form-control', value=our_model.name)}}
                 
             </div>
             <div class="form-group">
                 {{form.lastName.label(class='form-control')}}
-                {{form.lastName(class='form-control', value=our_customer.lastName)}}
+                {{form.lastName(class='form-control', value=our_model.lastName)}}
             </div>
 
             <div class="form-group">
               {{form.dateBirth.label(class='form-control')}}
-              {{form.dateBirth(class='form-control', value=our_customer.dateBirth)}}
+              {{form.dateBirth(class='form-control', value=our_model.dateBirth)}}
             </div>
 
             <div class="form-group">
               {{form.description.label(class='form-control')}}
-              {{form.description(class='form-control', value=our_customer.description)}}
+              {{form.description(class='form-control', value=our_model.description)}}
             </div>
 
             <div class="form-group">
               {{form.email.label(class='form-control')}}
-              {{form.email(class='form-control', value=our_customer.email)}}
+              {{form.email(class='form-control', value=our_model.email)}}
             </div>
 
             <div class="form-group">
               {{form.cellNumber.label(class='form-control')}}
-              {{form.cellNumber(class='form-control', value=our_customer.cellNumber)}}
+              {{form.cellNumber(class='form-control', value=our_model.cellNumber)}}
             </div>
 
             <div class="form-group">
               {{form.customerID.label(class='form-control')}}
-              {{form.customerID(class='form-control', value=our_customer.customerID)}}
+              {{form.customerID(class='form-control', value=our_model.customerID)}}
             </div>
 
         <div class="form-group">
           {{form.lastName.label(class='form-control')}}
-          {{form.lastName(class='form-control', value=our_customer.lastName)}}
+          {{form.lastName(class='form-control', value=our_model.lastName)}}
       </div>
         
             </div>
@@ -80,7 +80,7 @@
 
   
     <button type="submit" class="btn btn-light" >
-    <a href="{{url_for('system.customersDelete', id=our_customer.id)}}">
+    <a href="{{url_for('system.customersDelete', id=our_model.id)}}">
       {{form.hidden_tag()}}
       <ion-icon name='close'></ion-icon>
     </a>

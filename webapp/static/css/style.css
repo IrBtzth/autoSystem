@@ -39,7 +39,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }body {
-  background-color: #D0E2EB;
+  background-color: #e8f7ff;
 }
 @media (min-width: 991.98px) {
   main {
@@ -92,7 +92,8 @@ body {
 }
 
 .navbar{
-  background: linear-gradient(to left, #50B4E6, rgb(33,37,44));
+  position: relative;
+  background: linear-gradient(to left, #50e65a, rgb(33,37,44));
 }
 
 
@@ -111,3 +112,12 @@ body {
   }
 
 
+.ui-front {
+  z-index: 9999999 !important;
+}
+
+.ui-menu .ui-menu-item a{
+  color: #e826f2;
+  border-radius: 0px;
+  border: 1px solid #454545;
+}

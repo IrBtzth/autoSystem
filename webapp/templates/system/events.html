@@ -77,33 +77,29 @@
 				<tr>
 					<th scope="col">Id</th>
 					<th scope="col">Event</th>
-                    <th scope="col">Module</th>
+					<th scope="col">Module</th>
 					<th scope="col">Date</th>
 					<th scope="col">Hour</th>
 					<th scope="col"></th>
 				</tr>
 			</thead>
-
-			{% for our_event in our_events %}
+		
+			{% for our_model in our_models %}
 				<tbody>
 			
 					<tr>
-						<th scope="row">{{our_event.id}}</th>
-						<td>{{our_event.event}}</td>
-                        <td>{{our_event.module}}</td>
-						<td>{{our_event.date.date()}}</td>
-						<td>{{our_event.hour}}</td>
-						<td> <button type="submit" class="btn "  >
-                            <a href="{{url_for('system.eventDelete', id=our_event.id)}}" >
-                              {{form.hidden_tag()}}
-                              <ion-icon name="trash-outline"></ion-icon>
-                            </a>
-                          </button></td>
-						
-						</tr>
-				</tbody>
-	
-			{%endfor%}
+		{% include 'system/tables/events-table.html' %}
+		<td> <button type="submit" class="btn "  >
+                    <a href="{{url_for('system.eventDelete', id=our_model.id)}}" >
+                      {{form.hidden_tag()}}
+                      <ion-icon name="trash-outline"></ion-icon>
+                    </a>
+                  </button></td>
+                
+                </tr>
+        </tbody>
+
+    {%endfor%}
 </table>
 
 	

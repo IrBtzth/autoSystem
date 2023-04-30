@@ -135,5 +135,5 @@ def userAdd():
     
 @auth_blueprint.route('/search',methods=['GET', 'POST'])
 def search():
-    pass
+    p
 
