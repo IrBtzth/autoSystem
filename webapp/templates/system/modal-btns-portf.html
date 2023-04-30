@@ -1,12 +1,12 @@
 <!--Edit Button-->
-{%if our_portf.state == True%}
-<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_portf.id}}">
+{%if our_model.state == True%}
+<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_model.id}}">
   <ion-icon name="create-outline"></ion-icon>
 </button>
 
 <!--Edit Modal-->		
   
-<div class="modal fade" id="editModal{{our_portf.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal{{our_model.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
   <div class="modal-content ">
     <div class="modal-header">
@@ -16,23 +16,23 @@
     </button>
     </div>
     <div class="modal-body">
-      <form class="row g-3" method="POST" action="{{url_for('system.portfEdit', id=our_portf.id)}}">
+      <form class="row g-3" method="POST" action="{{url_for('system.portfEdit', id=our_model.id)}}">
             
             {{form.hidden_tag()}}
                 
             <div class="form-group" >
                 {{form.description.label(class='form-control')}}
-                {{form.description(class='form-control', value=our_portf.description)}}
+                {{form.description(class='form-control', value=our_model.description)}}
                 
             </div>
             <div class="form-group">
                 {{form.portfStart.label(class='form-control') }}
-                {{form.portfStart(class='form-control', value=our_portf.portfStart.date())}}
+                {{form.portfStart(class='form-control', value=our_model.portfStart.date())}}
                 
             </div>
             <div class="form-group">
                 {{form.portFinish.label(class='form-control')}}
-                {{form.portFinish(class='form-control', value=our_portf.portFinish.date())}}
+                {{form.portFinish(class='form-control', value=our_model.portFinish.date())}}
             </div>
         
             </div>
@@ -54,9 +54,9 @@
 <!--Delete Button-->
 
   
-    {%if our_portf.state == True%}
+    {%if our_model.state == True%}
     <button type="submit" class="btn btn-light" >
-    <a href="{{url_for('system.portfDelete', id=our_portf.id)}}">
+    <a href="{{url_for('system.portfDelete', id=our_model.id)}}">
       {{form.hidden_tag()}}
       <ion-icon name='close'></ion-icon>
     </a>
@@ -72,9 +72,9 @@
 <!--Run Button-->
 <button type="button" class="btn btn-light">
   
-  <a href="{{url_for('system.portfRunButton', id=our_portf.id)}}">
+  <a href="{{url_for('system.portfRunButton', id=our_model.id)}}">
     {{form.hidden_tag()}}
-    {%if our_portf.state == True%}
+    {%if our_model.state == True%}
       
       <ion-icon name="stop-circle-outline"></ion-icon>
     {%else%}

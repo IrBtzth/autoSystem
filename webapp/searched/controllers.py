@@ -74,8 +74,8 @@ def search(adress):
                     
                      
 
-                    
                     return render_template('Search.html', our_models=models_filtered,page=page)
+                    
                 
                 elif searched == None and (current_page==page) and (key_model == key_page):
 

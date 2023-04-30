@@ -80,14 +80,11 @@
 				</tr>
 			</thead>
 
-			{% for our_portf in our_portfs %}
+			{% for our_model in our_models %}
 				<tbody>
 			
 					<tr>
-						<th scope="row">{{our_portf.id}}</th>
-						<td>{{our_portf.description}}</td>
-						<td>{{our_portf.portfStart.date()}}</td>
-						<td>{{our_portf.portFinish.date()}}</td>
+						{% include 'system/tables/portfs-table.html' %}
 						<td>{% include 'system/modal-btns-portf.html' %}</td>
 						
 						</tr>

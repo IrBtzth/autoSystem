@@ -1,8 +1,8 @@
 
 body {
-  background-color: rgb(219,238,244);
+  background-color: white;
 }
-@media (min-width: 991.98px) {
+@media (min-width: 800.98px) {
   main {
     
     padding-left: 240px;
@@ -39,7 +39,7 @@ body {
   overflow-x: hidden;
   overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }body {
-  background-color: #e8f7ff;
+  background-color: white;
 }
 @media (min-width: 991.98px) {
   main {
@@ -54,7 +54,7 @@ body {
   bottom: 0;
   left: 0;
   padding: 58px 0 0; /* Height of navbar */
-  box-shadow: 0 2px 5px 0 #50B4E6, 0 2px 10px 0 rgb(0 0 0 / 5%);
+  box-shadow: 0 2px 5px 0 rgb(33,37,44), 0 2px 10px 0 rgb(0 0 0 / 5%);
   width: 240px;
   z-index: 600;
 }
@@ -81,6 +81,8 @@ body {
 
 
 
+
+
 .list-group-item{
   background-color: rgb(33,37,44);
   border-radius: 10px;
@@ -89,21 +91,22 @@ body {
   font-size: large;
   color: aliceblue;
   border: 0px;
+  margin-bottom: 20px;
 }
 
 .navbar{
   position: relative;
-  background: linear-gradient(to left, #50e65a, rgb(33,37,44));
+  background: linear-gradient(to left, #21b96b, rgb(33,37,44));
 }
 
 
 .table{
-  background-color: rgba(255, 255, 255, 0.767);
-  box-shadow:  0 2px 5px 0 hsla(201, 58%, 87%, 0.741), 0 5px 15px 0 #3e8cb3af;
+  background-color: rgba(204, 237, 255, 0.1);
+  box-shadow:  0 2px 5px 0 rgba(33,37,44, 0.1), 0 5px 15px 0 rgba(33,37,44, 0.5);
 }
 
 .thead{
-  background-color: rgb(33,37,44);
+  background-color: #21b96b;
   color: rgb(255, 255, 255);
 }
 
@@ -120,4 +123,13 @@ body {
   color: #e826f2;
   border-radius: 0px;
   border: 1px solid #454545;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 77%;
+    margin-left: -.9em;
+    margin-top: -.9em;
 }

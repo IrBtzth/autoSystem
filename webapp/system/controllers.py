@@ -101,8 +101,9 @@ def addCars():
 def cars():
     form=CarsForm()
     our_cars = Cars.query.order_by(Cars.id)    
+    searchForm=SearchForm()
 
-    return render_template('system/cars.html',form=form,our_cars=our_cars)
+    return render_template('system/cars.html',form=form, SearchForm=searchForm, our_cars=our_cars)
 
 @system_blueprint.route('/customers/customersDelete/<int:id>',methods=['GET', 'POST'])
 def customersDelete(id):
@@ -263,7 +264,7 @@ def portfs():
     our_portfs= Portfs.query.order_by(Portfs.id) 
     searchForm=SearchForm() 
     
-    return render_template('system/portfs.html', our_portfs=our_portfs, SearchForm=searchForm, form=form,datetime=datetime)
+    return render_template('system/portfs.html', our_models=our_portfs, SearchForm=searchForm, form=form,datetime=datetime)
 
 @system_blueprint.route('/portfs/portfRunButton/<int:id>', methods = ['GET', 'POST'])   
 def portfRunButton(id):
