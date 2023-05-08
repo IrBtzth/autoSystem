@@ -4,6 +4,7 @@ from webapp import create_app
 env = os.environ.get('WEBAPP_ENV', 'dev')
 app = create_app('config.%sConfig' % env.capitalize())
 
+app.app_context().push()
 
 
 if __name__ == '__main__':

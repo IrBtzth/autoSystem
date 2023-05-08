@@ -28,10 +28,10 @@ def carsDelete(id):
         flash("Car data Deleted")
         
         our_cars=Cars.query.order_by(Cars.id)
-        return render_template("cars.html", form=form,our_cars=our_cars)
+        return redirect(url_for('system.cars'))
     except:
         flash('There was a problem deleting your car data')
-        return render_template("system/cars.html", form=form,our_cars=our_cars)
+        return redirect(url_for('system.cars'))
 
 
 @system_blueprint.route('/cars/carsEdit/<int:id>', methods = ['GET', 'POST'])   
@@ -67,7 +67,7 @@ def addCars():
     
     if form.validate_on_submit():
 
-        car = Cars.query.filter_by(username=form.name.data).first()
+        car = Cars.query.filter_by(carID=form.carID.data).first()
         if car is None:
         
             car = Cars( 
@@ -79,7 +79,6 @@ def addCars():
             db.session.add(car)
             db.session.commit()
 
-        form.name.data = ''
         form.carID.data = ''
         form.plate.data = ''
         form.brand.data = ''
@@ -103,12 +102,12 @@ def cars():
     our_cars = Cars.query.order_by(Cars.id)    
     searchForm=SearchForm()
 
-    return render_template('system/cars.html',form=form, SearchForm=searchForm, our_cars=our_cars)
+    return render_template('system/cars.html',form=form, SearchForm=searchForm, our_models=our_cars)
 
 @system_blueprint.route('/customers/customersDelete/<int:id>',methods=['GET', 'POST'])
 def customersDelete(id):
     
-    form= CustomersForm()
+    form= CustomerForm()
     customers_to_delete = Customers.query.get_or_404(id)
     
     try:
@@ -117,15 +116,16 @@ def customersDelete(id):
         flash("Customer data Deleted")
         
         our_customers=Customers.query.order_by(Customers.id)
-        return render_template("customers.html", form=form,our_customers=our_customers)
+        return redirect(url_for('system.customers'))
     except:
         flash('There was a problem deleting your customers data')
-        return render_template("system/customers.html", form=form,our_models=our_customers)
+        return redirect(url_for('system.customers'))
 
 @system_blueprint.route('/customers/customersEdit/<int:id>', methods = ['GET', 'POST'])   
 def customersEdit(id):
     
     form=CustomerForm()
+    flash('editando')
 
     if form.validate_on_submit():
 
@@ -138,7 +138,8 @@ def customersEdit(id):
         customer.email = form.email.data 
         customer.cellNumber = form.cellNumber.data  
         customer.customerID = form.customerID.data  
-       
+
+        db.session.add(customer)
         db.session.commit()
         return redirect(url_for('system.customers'))
 
@@ -199,10 +200,10 @@ def eventDelete(id):
         flash("Event Deleted")
         
         our_events=Events.query.order_by(Events.id)
-        return render_template("events.html", form=form,our_events=our_events)
+        return redirect(url_for('system.events'))
     except:
         flash('There was a problem deleting your event')
-        return render_template("system/events.html", form=form,our_events=our_events)
+        return redirect(url_for('system.events'))
 
 
 @system_blueprint.route('/events/eventAdd',methods=['POST', 'GET'])
@@ -250,10 +251,10 @@ def portfDelete(id):
         flash("Portafolio Deleted")
         
         our_portfs=Portfs.query.order_by(Portfs.id)
-        return render_template("portfs.html", form=form,our_portfs=our_portfs)
+        redirect(url_for('system.portfs'))
     except:
         flash('There was a problem deleting your user')
-        return render_template("system/portfs.html", form=form,our_portfs=our_portfs)
+        redirect(url_for('system.portfs'))
 
 
 @system_blueprint.route('/portfs/',methods=['GET', 'POST'])
@@ -318,5 +319,3 @@ def portfEdit(id):
        
         db.session.commit()
         return redirect(url_for('system.portfs'))
-
-

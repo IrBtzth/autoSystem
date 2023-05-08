@@ -11,7 +11,7 @@
         >
           <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dashboard</span>
         </a>
-        <a href="{{url_for('auth.userAdd')}}" class="list-group-item list-group-item-action list-group-item-info">
+        <a href="{{url_for('auth.users')}}" class="list-group-item list-group-item-action list-group-item-info">
           <i class="fas fa-chart-area fa-fw me-3"></i><span>Users Profile</span>
         </a>
         <a></a>
@@ -66,19 +66,20 @@
         />
       </a>
       <!-- Search form -->
-      {% set page = ['system.customers', 'system.events','system.portfs','system.cars','auth.userAdd'] %}
+      {% set page = ['system.customers', 'system.events','system.portfs','system.cars','auth.users'] %}
       {%for i in page %}
       {% if request.url_rule.endpoint == i  %}
      
       <form id="SearchForm" -class="d-none d-md-flex input-group w-auto my-auto" >
         {{SearchForm.hidden_tag()}}
         <div class="center">
-    
+        
         <input
         autocomplete="off"
         type="search"
         class="form-control rounded"
-        placeholder='Search in {{i.replace("system.","")}}'
+        
+        placeholder='Search in {{i.replace("system.","").replace("auth.","")}}'
         style="min-width: 225px;"
         id="bar_search"
         />
@@ -201,7 +202,7 @@
 <!--Main Navigation-->
 
 <!--Main layout-->
-<main style="margin-top: 30px;">
-  <div class="container pt-4"></div>
+<main>
+  <div class="container pt-4" ></div>
 </main>
 <!--Main layout-->

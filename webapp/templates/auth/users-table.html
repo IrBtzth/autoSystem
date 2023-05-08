@@ -1,0 +1,6 @@
+<th scope="row">{{our_model.id}}</th>
+<td>{{our_model.username}}</td>
+<td>{{our_model.name}}</td>
+<td>{{our_model.lastName}}</td>
+<td>{{our_model.roles.__getitem__(0).name}}</td>
+<td>{{our_model.password_hash | truncate(10)}}</td>

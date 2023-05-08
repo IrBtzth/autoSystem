@@ -7,6 +7,9 @@ from .models import db, Users,Role
 from .forms import LoginForm, UsersForm,UsersEditForm
 from flask_login import login_user, logout_user,LoginManager, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from ..searched.forms import SearchForm
+from . import has_role
+from ..system.models import Portfs
 
 auth_blueprint = Blueprint(
     'auth',
@@ -49,7 +52,7 @@ def logout():
 @auth_blueprint.route('/userDelete/<int:id>',methods=['GET', 'POST'])
 def userDelete(id):
     
-    form= UsersForm()
+    form= formChoices()
     user_to_delete = Users.query.get_or_404(id)
     
     try:
@@ -58,15 +61,15 @@ def userDelete(id):
         flash("User Deleted")
         
         our_users=Users.query.order_by(Users.id)
-        return render_template("userAdd.html", form=form,our_users=our_users)
+        return render_template("users.html", form=form,our_models=our_users)
     except:
         flash('There was a problem deleting your user')
-        return render_template("userAdd.html", form=form,our_users=our_users)
+        return render_template("users.html", form=form,our_models=our_users)
 
 @auth_blueprint.route('/addUser/userEdit/<int:id>', methods = ['GET', 'POST'])   
 def userEdit(id):
     
-    form=UsersForm()
+    form=formChoices()
 
     if form.validate_on_submit():
         
@@ -81,14 +84,13 @@ def userEdit(id):
        
         old_role = Role.query.get(int(theUser.roles.__getitem__(0).id))
         
-        with db.session.no_autoflush:
-            theUser.roles.append(role)
-            theUser.roles.remove(old_role)
+        theUser.roles.append(role)
+        theUser.roles.remove(old_role)
             
         db.session.add(theUser)
         db.session.commit()
         
-    return redirect(url_for('auth.userAdd'))
+    return redirect(url_for('auth.users'))
     
     
  
@@ -96,22 +98,28 @@ def userEdit(id):
 @auth_blueprint.route('/userAdd',methods=['GET', 'POST'])
 def userAdd():
     
-    name = None
-    form = UsersForm()
-    form.role_button.choices= [ (r.id, r.name) for r in Role.query.order_by(Role.id)]
+    form = formChoices()
     
     
     if form.validate_on_submit():
         
         value = int(form.role_button.data)
-        role = Role.query.get(value)
+        portfs = form.role_button2.data
+        role = Role.query.get_or_404(value)
+        
+        flash(str(portfs[1].id))
+        
 
         user = Users.query.filter_by(username=form.username.data).first()
         if user is None:
             
             hashed_pw = generate_password_hash(form.password_hash.data, 'sha256')
             user = Users(username=form.username.data, name=form.name.data, lastName=form.lastName.data, password_hash=hashed_pw)
+            
             user.roles.append(role)
+            for portf in portfs:
+                user.portfs.append(portf)
+            
             db.session.add(user)
             db.session.commit()
 
@@ -122,18 +130,33 @@ def userAdd():
         form.password_hash.data = ''
         flash("User Added Successfully!")
 
-    roles=Role.query.order_by(Role.id)
-    our_users = Users.query.order_by(Users.id)
 
-    return render_template(
-        'userAdd.html',
-        form=form,
-        name=name,
-        our_users=our_users,
-        roles=roles
-    )
+    return redirect(url_for('auth.users'))
     
-@auth_blueprint.route('/search',methods=['GET', 'POST'])
-def search():
-    p
 
+@auth_blueprint.route('/users',methods=['GET', 'POST'])
+
+def users():
+
+    form = formChoices()
+    our_users= Users.query.order_by(Users.id) 
+    searchForm=SearchForm() 
+    
+    return render_template('users.html',form=form,SearchForm=searchForm,our_models=our_users)
+    
+def formChoices():
+    form = UsersForm()
+    model_to_choice= [Role, Portfs]
+    choices=[]
+
+    for i in  model_to_choice:
+        len_choices = range(len(i.query.all()))
+        if i==Role:
+            choices.append([((j+1,str(i.query.all()[j].name))) for j in len_choices])
+            form.role_button.choices=choices[0]
+        else:
+            form.role_button2.query=i.query.all()
+
+
+
+    return form

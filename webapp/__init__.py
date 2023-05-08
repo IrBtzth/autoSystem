@@ -3,9 +3,19 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy import create_engine
+from sqlalchemy import MetaData
 
-db = SQLAlchemy()
+
 migrate = Migrate()
+
+naming_convention = {
+    "ix": 'ix_%(column_0_label)s',
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(column_0_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s"
+}
+db = SQLAlchemy(metadata=MetaData(naming_convention=naming_convention))
 
 
 
@@ -18,7 +28,9 @@ def create_app(object_name):
     app.config.from_object(object_name)
 
     db.init_app(app)
-    migrate.init_app(app, db,render_as_batch=True)
+    migrate.init_app(app, db, render_as_batch=True)
+
+   
 
   
     from .system import create_module as system_create_module

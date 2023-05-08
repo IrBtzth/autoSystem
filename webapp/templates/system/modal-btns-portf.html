@@ -1,58 +1,61 @@
 <!--Edit Button-->
+<td>
 {%if our_model.state == True%}
 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_model.id}}">
   <ion-icon name="create-outline"></ion-icon>
 </button>
 
 <!--Edit Modal-->		
-  
+<form class="row g-3" method="POST" action="{{url_for('system.portfEdit', id=our_model.id)}}"> 
 <div class="modal fade" id="editModal{{our_model.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
   <div class="modal-content ">
     <div class="modal-header">
-    <h5 class="modal-title" id="createModalLabel">Modal title</h5>
+    <h5 class="modal-title" id="createModalLabel">Portafolio to edit</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
     </div>
     <div class="modal-body">
-      <form class="row g-3" method="POST" action="{{url_for('system.portfEdit', id=our_model.id)}}">
+      
             
             {{form.hidden_tag()}}
-                
-            <div class="form-group" >
-                {{form.description.label(class='form-control')}}
-                {{form.description(class='form-control', value=our_model.description)}}
-                
-            </div>
             <div class="form-group">
-                {{form.portfStart.label(class='form-control') }}
-                {{form.portfStart(class='form-control', value=our_model.portfStart.date())}}
-                
+              {{form.description.label(class="form-control-label")}}
+              {{form.description(class="form-control form-control", value=our_model.description)}}
+              <br/>
+              {{form.portfStart.label(class="form-control-label") }}
+              {{form.portfStart(class="form-control form-control", value=our_model.portfStart)}}
+              <br/>
+              {{form.portFinish.label(class="form-control-label")}}
+              {{form.portFinish(class="form-control form-control", value=our_model.portFinish)}}
+              <br/>
             </div>
-            <div class="form-group">
-                {{form.portFinish.label(class='form-control')}}
-                {{form.portFinish(class='form-control', value=our_model.portFinish.date())}}
+            
             </div>
-        
-            </div>
+  
             <div class="modal-footer text-center">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              {{form.submit(class=" btn")}}
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              {{form.submit(class="btn btn-primary")}}
             </div>
-          </form>
+                
+           
+          
   </div>
 
   </div>
 </div>
+
 {%else %}
 <button disabled class="btn btn-secondary"  >
   <ion-icon name="create-outline"></ion-icon>
 </button>
 {%endif%}
+</form>
+</td>
 
 <!--Delete Button-->
-
+<td>
   
     {%if our_model.state == True%}
     <button type="submit" class="btn btn-light" >
@@ -67,9 +70,10 @@
       </button>
     {%endif%}
   
-
+  </td>
 
 <!--Run Button-->
+<td>
 <button type="button" class="btn btn-light">
   
   <a href="{{url_for('system.portfRunButton', id=our_model.id)}}">
@@ -84,8 +88,10 @@
   </a>
   </button>
 
-
+</td>
 <!--Print Button-->
+<td>
 <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#printModal">
 	<ion-icon name="print-outline"></ion-icon>
 </button>
+</td>

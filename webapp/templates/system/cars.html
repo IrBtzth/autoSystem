@@ -121,22 +121,11 @@
                 
 			</thead>
 
-			{% for our_car in our_cars %}
+			{% for our_model in our_models %}
 				<tbody>
 			
 					<tr>
-						
-                            <th scope="row">{{our_car.id}}</th>
-                            
-                            <td>{{our_car.carID}}</td>
-                            <td>{{our_car.plate}}</td>
-                            <td>{{our_car.brand}}</td>
-                            <td>{{our_car.model}}</td>
-                            <td>{{our_car.year}}</td>
-                            <td>{{our_car.serialBodywork}}</td>
-                            <td>{{our_car.serialMotor}}</td>
-                            <td>{{our_car.color}}</td>
-                            <td>{{our_car.problem}}</td>
+						{% include 'system/tables/cars-table.html' %}
                             
                             
                         <td>

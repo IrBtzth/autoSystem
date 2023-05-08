@@ -35,10 +35,14 @@
 				{% elif page ==  'system.portfs'%}
 
 				{% include 'system/tables/portfs-table.html' %}
+				
+				{% elif page ==  'system.cars'%}
 
-				{% elif page ==  'auth.userAdd'%}
+				{% include 'system/tables/cars-table.html' %}
 
-				{% include 'system/tables/users-table.html' %}
+				{% elif page ==  'auth.users'%}
+
+				{% include 'auth/users-table.html' %}
 
 				{% else %}
 				

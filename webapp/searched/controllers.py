@@ -35,8 +35,8 @@ def search(adress):
 
         
 
-        models={1:Customers,2:Events,3:Cars,4:Portfs}
-        pages={1:'system.customers',2:'system.events',3:'system.cars',4:'system.portfs'}
+        models={1:Customers,2:Events,3:Cars,4:Portfs,5:Users}
+        pages={1:'system.customers',2:'system.events',3:'system.cars',4:'system.portfs',5:'auth.users'}
 
         for key_model in models:
             model = models[key_model]
@@ -45,35 +45,33 @@ def search(adress):
                 page=pages[key_page]
 
                 if (len(str(searched))> 1) and (current_page==page) and (key_model == key_page) and searched != None: 
-                    
-                    
+                   
                     attrs= dir(model.query.first())          
-                    attrs_filtered = list(filter(lambda x: x.find('_')<0 and not(any([x in ['registry','query','metadata']])), attrs))
+                    
 
-                    model_attrs = [[model.query.filter(getattr(model, i).like('%' +searched+'%' )),getattr(model, i)]
-                                    for i in attrs_filtered 
-                                    if model.query.filter(getattr(model, i).like('%' + searched +'%' )).first() != None]
+                    
+                    if page == 'auth.users':
+                        attrs_filtered = list(filter(lambda x: x.find('_')<0 and not(any([x in ['registry','query','metadata','roles']])), attrs))
+                        
+                        model_attrs = [[model.query.filter(getattr(model, i).like('%' +searched+'%' )),getattr(model, i)]
+                                        for i in attrs_filtered 
+                                        if model.query.filter(getattr(model, i).like('%' + searched +'%' )).first() != None]                  
+                    else:
+                        attrs_filtered = list(filter(lambda x: x.find('_')<0 and not(any([x in ['registry','query','metadata']])), attrs))
+                        model_attrs = [[model.query.filter(getattr(model, i).like('%' +searched+'%' )),getattr(model, i)]
+                                        for i in attrs_filtered 
+                                        if model.query.filter(getattr(model, i).like('%' + searched +'%' )).first() != None]
                     
                     
                     len_model_attrs=[len(i[0].all()) for i in model_attrs]
                     max_index=len_model_attrs.index(max(len_model_attrs))
 
                     the_attr= model_attrs[max_index][1]
-
-                   
-                    r=page.replace('system.','').capitalize()
-                    str_attr = str(the_attr).replace(f'{r}.','')
                    
                     
                     models_filtered = model_attrs[max_index][0].order_by(the_attr)
-                    #l= str(models_filtered)
-                   
-                    
-                    #listis = [str(getattr(i,str_attr)) for i in models_filtered]
-                    #return render_template('Search.html', l= listis)
                     
                      
-
                     return render_template('Search.html', our_models=models_filtered,page=page)
                     
                 

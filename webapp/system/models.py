@@ -1,7 +1,7 @@
 from .. import db
 from datetime import datetime
-from ..auth.models import Users, Role
 from ..auth import has_role
+
 
 class Cars(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -46,8 +46,7 @@ class Portfs(db.Model):
     description = db.Column(db.String(), nullable=False)
     portfStart = db.Column(db.DateTime())
     portFinish = db.Column(db.DateTime())
-    usersId = db.Column(db.Integer(), db.ForeignKey('users.id'))
     state= db.Column(db.Boolean(), unique=False, default=True)
     
     def __repr__(self):
-        return "<Name '{}'>".format(self.description)
+        return self.description
