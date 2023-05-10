@@ -2,6 +2,36 @@ from .. import db
 from datetime import datetime
 from ..auth import has_role
 
+class ProjectData(db.Model):
+    
+    id = db.Column(db.Integer(), primary_key=True)
+
+    departments_id= db.Column(db.Integer(), db.ForeignKey('departments.id'))
+    
+    users_id= db.Column(db.Integer(), db.ForeignKey('users.id'))
+    
+    cars_id= db.Column(db.Integer(), db.ForeignKey('cars.id'))
+
+    amount = db.Column(db.String(255))
+
+    observations = db.Column(db.String(255))
+
+    solution = db.Column(db.String(255))
+
+
+    def __repr__(self):
+        return self.department_project
+
+class Departments(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    description = db.Column(db.String(), nullable=False)
+
+    projectdata = db.relationship('ProjectData', backref='departments')
+
+    
+
+    def __repr__(self):
+        return self.description
 
 class Cars(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -15,8 +45,11 @@ class Cars(db.Model):
     color = db.Column(db.String(255))
     problem = db.Column(db.String(255))
 
+    projectdata= db.relationship('ProjectData', backref='cars')
+    
+
     def __repr__(self):
-        return "<Name '{}'>".format(self.name)
+        return self.plate
 
 class Customers(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -50,3 +83,4 @@ class Portfs(db.Model):
     
     def __repr__(self):
         return self.description
+

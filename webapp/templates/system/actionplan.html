@@ -13,19 +13,19 @@
 {% endfor %}
 
 <br/>
-		<h1>Portafolios projects </h1>
+		<h1 >Action plan</h1>
 
 		<br/>
 		<div class="izq">
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
-				Add Portafolio 
+				Add action plan
 				<ion-icon name='document-text'></ion-icon>
 			</button>
 		</div>
 
 
 		<!-- Modal add-->
-<form method="POST" action="{{url_for('system.portfAdd')}}">
+<form method="POST" action="{{url_for('system.actionplanAdd')}}">
 		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -40,15 +40,25 @@
 					{{form.hidden_tag()}}
 						
 					<div class="form-group">
-						{{form.description.label(class="form-control-label")}}
-						{{form.description(class="form-control form-control")}}
+
+						
+						{{form.action.label(class="form-control-label")}}
+						{{form.action(class="form-control form-control")}}
 						<br/>
-						{{form.portfStart.label(class="form-control-label") }}
-						{{form.portfStart(class="form-control form-control")}}
+						{{form.activity.label(class="form-control-label")}}
+						{{form.activity(class="form-control form-control")}}
 						<br/>
-						{{form.portFinish.label(class="form-control-label")}}
-						{{form.portFinish(class="form-control form-control")}}
+						{{form.observations.label(class="form-control-label")}}
+						{{form.observations(class="form-control form-control")}}
 						<br/>
+						{{form.Responsible.label(class="form-control-label")}}
+						{{form.Responsible(class="form-control form-control")}}
+						<br/>
+						{{form.amount.label(class="form-control-label")}}
+						{{form.amount(class="form-control form-control")}}
+						<br/>
+						
+
 					</div>
 					
 					</div>
@@ -71,11 +81,13 @@
 			<thead class="thead">
 				<tr>
 					<th scope="col">Id</th>
-					<th scope="col">Description</th>
-					<th scope="col">Start</th>
-					<th scope="col">Finish</th>
-					<th scope="col"></th>
-					<th scope="col"></th>
+					<th scope="col">Action</th>
+					<th scope="col">Activity</th>
+					<th scope="col">Start date</th>
+					<th scope="col">Closing date</th>
+					<th scope="col">Number of hours</th>
+					<th scope="col">Responsible</th>
+					<th scope="col">Amount</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 					<th scope="col"></th>
@@ -86,8 +98,8 @@
 				<tbody>
 			
 					<tr>
-						{% include 'system/tables/portfs-table.html' %}
-						<td>{% include 'system/modals/portfs-modal-btns.html' %}</td>
+						{% include 'system/tables/actionplan-table.html' %}
+						<td>{% include 'system/modals/actionplan-modal-btns.html' %}</td>
 						
 						</tr>
 				</tbody>

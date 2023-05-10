@@ -107,8 +107,6 @@ def userAdd():
         portfs = form.role_button2.data
         role = Role.query.get_or_404(value)
         
-        flash(str(portfs[1].id))
-        
 
         user = Users.query.filter_by(username=form.username.data).first()
         if user is None:

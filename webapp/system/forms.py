@@ -1,9 +1,19 @@
 from flask_wtf import FlaskForm
-from wtforms import TimeField, DateField,StringField,EmailField, SubmitField,IntegerField, PasswordField, BooleanField, ValidationError,TextAreaField, FormField,FieldList
+from wtforms import TimeField, DateField,StringField,EmailField, SelectField, SubmitField,IntegerField, PasswordField, BooleanField, ValidationError,TextAreaField, FormField,FieldList
 from wtforms.validators import DataRequired, EqualTo, Length,Regexp
 from datetime import datetime
 
+class ProjectDataForm(FlaskForm):
+    car = StringField(label= 'Amount:', validators=[DataRequired()])
 
+    amount = StringField(label= 'Amount:', validators=[DataRequired()])
+    observations = StringField(label= 'Observations:', validators=[DataRequired()])
+    solution = StringField(label= 'Solution:', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class DepartmentsForm(FlaskForm):
+    description = StringField('Description', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 class CarsForm(FlaskForm):
 

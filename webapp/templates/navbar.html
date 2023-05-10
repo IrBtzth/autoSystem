@@ -27,6 +27,13 @@
         <a href="{{url_for('system.cars')}}"  class="list-group-item list-group-item-action list-group-item-info">
           <i class="fas fa-chart-pie fa-fw me-3"></i><span>Car Data</span>
         </a>
+        <a href="{{url_for('system.departments')}}"  class="list-group-item list-group-item-action list-group-item-info">
+          <i class="fas fa-chart-pie fa-fw me-3"></i><span>Deparments</span>
+        </a>
+        <a href="{{url_for('system.projectdata')}}"  class="list-group-item list-group-item-action list-group-item-info">
+          <i class="fas fa-chart-pie fa-fw me-3"></i><span>Project Data</span>
+        </a>
+        
         <a href="{{url_for('auth.login')}}"  class="list-group-item list-group-item-action list-group-item-info">
           <i class="fas fa-chart-pie fa-fw me-3"></i><span>Login</span>
         </a>
@@ -66,7 +73,7 @@
         />
       </a>
       <!-- Search form -->
-      {% set page = ['system.customers', 'system.events','system.portfs','system.cars','auth.users'] %}
+      {% set page = ['system.customers', 'system.events','system.portfs','system.cars','system.projectdata','system.departments','auth.users'] %}
       {%for i in page %}
       {% if request.url_rule.endpoint == i  %}
      

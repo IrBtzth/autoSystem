@@ -25,7 +25,7 @@
 
 
 		<!-- Modal add-->
-        <form method="POST" action="{{url_for('system.customers')}}"></form>
+        
 		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -38,11 +38,10 @@
 		<div class="modal-body">
 	
 				
-						
+			<form method="POST" action="{{url_for('system.customerAdd')}}">
                     {{form.hidden_tag()}}
                     
-                    
-                    <div class="form-group">
+                      <div class="form-group">
 
                         {{form.name.label(class="form-control-label")}}
                         {{form.name(class="form-control form-control")}}
@@ -73,14 +72,14 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     {{form.submit(class="btn btn-primary")}}
                 </div>
-
+            </form>
 				
 
 				</div>
 			</div>
 		</div>
 		</div>
-    </form>
+
 		<!-- TABLE -->
 
 		<table class="table table-hover table" >
@@ -108,7 +107,7 @@
 					<tr>
                         {% include 'system/tables/customers-table.html' %}
                     
-                        {% include 'system/customers-modals-btn.html' %}
+                        {% include 'system/modals/customers-modals-btn.html' %}
                     
                     
                     </tr>

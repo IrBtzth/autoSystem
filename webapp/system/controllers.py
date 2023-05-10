@@ -2,12 +2,12 @@ from datetime import datetime
 from sqlalchemy import desc, func
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, abort, request
 from flask_login import login_required, current_user
-from .models import db, Portfs, Events, Customers, Cars
+from .models import db, Portfs, Events, Customers, Cars, Departments, ProjectData
 from ..auth.models import Users,Role
 from ..auth import has_role
 from werkzeug.security import generate_password_hash, check_password_hash
 from ..searched.forms import SearchForm
-from .forms import  PortForm, EventsForm, CustomerForm,CarsForm
+from .forms import  PortForm, EventsForm, CustomerForm,CarsForm, DepartmentsForm, ProjectDataForm
 
 
 system_blueprint = Blueprint(
@@ -15,6 +15,155 @@ system_blueprint = Blueprint(
     __name__,
     template_folder='../templates'
 )
+
+
+@system_blueprint.route('/projectdata/projectdataDelete/<int:id>',methods=['GET', 'POST'])
+def projectdataDelete(id):
+    
+    form= ProjectDataForm()
+    projectdata_to_delete = ProjectData.query.get_or_404(id)
+    
+    try:
+        db.session.delete(projectdata_to_delete)
+        db.session.commit()
+        flash("Project data deleted")
+        
+        our_projectdata=ProjectData.query.order_by(ProjectData.id)
+        return redirect(url_for('system.projectdata'))
+    except:
+        flash('There was a problem deleting your event')
+        return redirect(url_for('system.projectdata'))
+
+
+@system_blueprint.route('/projectdata/projectdataAdd',methods=['POST', 'GET'])
+def projectdataAdd():
+    
+    form=ProjectDataForm()
+    carid= request.form.get('Cars')
+    usersid= request.form.get('Operations Manager')
+    deparmentsid= request.form.get('Departments')
+    
+    if form.validate_on_submit():
+
+        
+        
+        car = Cars.query.get_or_404(int(carid))
+        department = Departments.query.get_or_404(int(deparmentsid))
+        user = Users.query.get_or_404(int(usersid))
+
+        projectdata = ProjectData(amount=form.amount.data,observations=form.observations.data, solution=form.solution.data)
+        
+        car.projectdata.append(projectdata)
+        department.projectdata.append(projectdata)
+        user.projectdata.append(projectdata)
+        
+        db.session.add(projectdata)
+        db.session.commit()
+            
+        form.amount.data = ''
+        form.observations.data = ''
+        form.solution.data = ''
+        flash("Project Data added Successfully!")
+        return redirect(url_for('system.projectdata')) 
+    
+    elif carid == None or usersid==None or deparmentsid==None :
+        flash("We couldn't add your project data, be sure to add a car, an operation manager and a deparment")
+        return redirect(url_for('system.projectdata'))
+    
+    else:
+        flash("We couldn't add your project data, there was a problem")
+        return redirect(url_for('system.projectdata'))
+   
+        
+
+    return redirect(url_for('system.projectdata')) 
+
+
+
+@system_blueprint.route('/projectdata/',methods=['GET', 'POST'])
+def projectdata():
+
+    form= ProjectDataForm()
+    searchForm = SearchForm()
+
+    our_projectdata= ProjectData.query.order_by(ProjectData.id)
+    our_cars= Cars.query.order_by(Cars.id)
+    our_users= [i for i in Users.query.order_by(Users.id) if str(i.roles)== '[Operations Manager]']
+    flash(str(our_projectdata[0].cars.problem))
+    our_departments= Departments.query.order_by(Departments.id)
+    
+    return render_template('system/projectdata.html',our_departments=our_departments,our_users=our_users, our_models=our_projectdata,our_cars=our_cars, form=form, SearchForm=searchForm)
+
+
+#----------PROJECT DATA----------
+
+
+@system_blueprint.route('/departments/departmentEdit/<int:id>', methods = ['GET', 'POST'])   
+def departmentEdit(id):
+    
+    form=DepartmentsForm()
+
+    if form.validate_on_submit():
+        
+        department= Departments.query.get_or_404(id)
+
+        department.description = form.description.data 
+        
+            
+        db.session.add(department)
+        db.session.commit()
+        
+    return redirect(url_for('system.departments'))
+
+
+@system_blueprint.route('/department/departmentDelete/<int:id>',methods=['GET', 'POST'])
+def departmentDelete(id):
+    
+    form= DepartmentsForm()
+    department_to_delete = Department.query.get_or_404(id)
+    
+    try:
+        db.session.delete(department_to_delete)
+        db.session.commit()
+        flash("Department deleted")
+        
+        our_deparments=Deparments.query.order_by(Deparments.id)
+        return redirect(url_for('system.deparments'))
+    except:
+        flash('There was a problem deleting your department')
+        return redirect(url_for('system.department'))
+
+
+@system_blueprint.route('/departments/departmentAdd',methods=['POST', 'GET'])
+def departmentAdd():
+    
+    form=DepartmentsForm()
+    
+    if form.validate_on_submit():
+
+        department = Departments.query.filter_by(description=form.description.data).first()
+        if department is None:
+            department = Departments(description=form.description.data)
+            db.session.add(department)
+            db.session.commit()
+            
+        form.description.data = ''
+        flash("Department added Successfully!")
+    return redirect(url_for('system.departments'))
+
+
+@system_blueprint.route('/departments/',methods=['GET', 'POST'])
+def departments():
+
+    form=DepartmentsForm()
+    searchForm = SearchForm()
+    our_departments= Departments.query.order_by(Departments.id)
+    
+    return render_template('system/departments.html', our_models=our_departments, form=form, SearchForm=searchForm)
+
+
+#----------DEPARMENTS----------
+
 
 @system_blueprint.route('/cars/carsDelete/<int:id>',methods=['GET', 'POST'])
 def carsDelete(id):
@@ -104,6 +253,10 @@ def cars():
 
     return render_template('system/cars.html',form=form, SearchForm=searchForm, our_models=our_cars)
 
+
+#----------CARS----------
+
+
 @system_blueprint.route('/customers/customersDelete/<int:id>',methods=['GET', 'POST'])
 def customersDelete(id):
     
@@ -120,6 +273,7 @@ def customersDelete(id):
     except:
         flash('There was a problem deleting your customers data')
         return redirect(url_for('system.customers'))
+
 
 @system_blueprint.route('/customers/customersEdit/<int:id>', methods = ['GET', 'POST'])   
 def customersEdit(id):
@@ -143,8 +297,9 @@ def customersEdit(id):
         db.session.commit()
         return redirect(url_for('system.customers'))
 
-@system_blueprint.route('/customers/addCustomer',methods=['GET', 'POST'])
-def addCustomer():
+
+@system_blueprint.route('/customers/customerAdd',methods=['GET', 'POST'])
+def customerAdd():
     
     form = CustomerForm()
     
@@ -187,6 +342,8 @@ def customers():
     return render_template('system/customers.html', our_models=our_customers,SearchForm=searchForm, form=form,datetime=datetime)
 
 
+#----------CUSTOMERS----------
+
 
 @system_blueprint.route('/events/eventDelete/<int:id>',methods=['GET', 'POST'])
 def eventDelete(id):
@@ -228,7 +385,6 @@ def eventAdd():
     return redirect(url_for('system.events')) 
 
 
-
 @system_blueprint.route('/events/',methods=['GET', 'POST'])
 def events():
 
@@ -237,6 +393,9 @@ def events():
     our_events= Events.query.order_by(Events.id)
     
     return render_template('system/events.html', our_models=our_events, form=form, SearchForm=searchForm ,datetime=datetime)
+
+
+#----------EVENTS----------
 
 
 @system_blueprint.route('/portfs/portfDelete/<int:id>',methods=['GET', 'POST'])
@@ -256,16 +415,6 @@ def portfDelete(id):
         flash('There was a problem deleting your user')
         redirect(url_for('system.portfs'))
 
-
-@system_blueprint.route('/portfs/',methods=['GET', 'POST'])
-@login_required
-@has_role('Admin')
-def portfs():
-    form=PortForm()
-    our_portfs= Portfs.query.order_by(Portfs.id) 
-    searchForm=SearchForm() 
-    
-    return render_template('system/portfs.html', our_models=our_portfs, SearchForm=searchForm, form=form,datetime=datetime)
 
 @system_blueprint.route('/portfs/portfRunButton/<int:id>', methods = ['GET', 'POST'])   
 def portfRunButton(id):
@@ -319,3 +468,18 @@ def portfEdit(id):
        
         db.session.commit()
         return redirect(url_for('system.portfs'))
+
+
+@system_blueprint.route('/portfs/',methods=['GET', 'POST'])
+@login_required
+@has_role('Admin')
+def portfs():
+    form=PortForm()
+    our_portfs= Portfs.query.order_by(Portfs.id) 
+    searchForm=SearchForm() 
+    
+    return render_template('system/portfs.html', our_models=our_portfs, SearchForm=searchForm, form=form,datetime=datetime)
+
+
+#----------PORTAFOLIOS----------
+

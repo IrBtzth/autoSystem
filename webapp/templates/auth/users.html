@@ -83,11 +83,11 @@
 				
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">{{form.username.label(scope="col")}}</th>
-                      <th scope="col">{{form.name.label(scope="col")}}</th>
-                      <th scope="col">{{form.lastName.label(scope="col")}}</th>
-                      <th scope="col">{{form.role_button.label(scope="col")}}</th>
-                      <th scope="col">{{form.password_hash.label(scope="col")}}</th>
+                      
+                      {% include 'users-tables-header.html' %}
+                      <th scope="col">Username</th>
+                      
+                      <th scope="col">Password_hash</th>
                       <th scope="col"></th>
                       <th scope="col"></th>
                       <th scope="col"></th>
@@ -99,10 +99,10 @@
 				<tbody>
 			
 					<tr>
-						
+                      <td>{{our_model.id}}</td>
                         {% include 'users-table.html' %}
-                        
-                            
+                      <td>{{our_model.username}}</td>
+                      <td>{{our_model.password_hash | truncate(10)}}</td>
                         {% include 'modals-btn.html' %}
                         
                     </tr>
@@ -115,8 +115,6 @@
 
 
 	
-			
 
-		
 
 {% endblock %}

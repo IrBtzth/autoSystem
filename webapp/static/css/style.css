@@ -94,7 +94,7 @@
 
 
 .table{
-  background-color: rgba(204, 237, 255, 0.1);
+  background-color: rgba(190, 226, 245, 0.1);
   box-shadow:  0 2px 5px 0 rgba(33,37,44, 0.1), 0 5px 15px 0 rgba(33,37,44, 0.5);
   font-size: 15.5px;
 }
@@ -126,4 +126,11 @@
     left: 77%;
     margin-left: -.9em;
     margin-top: -.9em;
+}
+
+.table-dropdown{
+  background-color: transparent;
+  box-shadow:none;
+  border-top: transparent;
+  align-content: center;
 }

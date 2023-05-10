@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Department </h1>
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add a department
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+        <form method="POST" action="{{url_for('system.departmentAdd')}}">
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Add deparment</h5>
+				<button type="button" class="btn btn-light" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+				
+						
+                    {{form.hidden_tag()}}
+                    
+                    
+                    <div class="form-group">
+
+                        {{form.description.label(class="form-control-label")}}
+                        {{form.description(class="form-control form-control")}}
+                        <br/>
+                    
+                        
+                    </div>
+                </div>
+                
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {{form.submit(class="btn btn-primary")}}
+                </div>
+
+				
+
+				</div>
+			</div>
+		</div>
+		</div>
+    </form>
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				
+                    <tr>
+						<th scope="col">#</th>
+						{% include 'system/tables-header/departments-tables-header.html' %}
+                      <th scope="col"></th>
+					  <th scope="col"></th>
+                      </tr>
+                
+			</thead>
+
+			{% for our_model in our_models %}
+				<tbody>
+			
+					<tr>
+						<th scope="row">{{our_model.id}}</th>
+                        {% include 'system/tables/departments-table.html' %}
+                    
+                        {% include 'system/modals/departments-modals-btn.html' %}
+                    
+                    
+                    </tr>
+						
+						
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+
+	
+			
+
+		
+
+{% endblock %}

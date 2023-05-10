@@ -2,12 +2,12 @@ from datetime import datetime
 from sqlalchemy import desc, func
 from flask import render_template, Blueprint, flash, redirect, url_for, current_app, abort, jsonify,request
 from flask_login import login_required, current_user
-from ..system.models import db, Portfs, Events, Customers, Cars
+from ..system.models import db, Portfs, Events, Customers, Cars,Departments, ProjectData
 from ..auth.models import Users,Role
 from ..auth import has_role
 from werkzeug.security import generate_password_hash, check_password_hash
 from .forms import SearchForm
-from ..system.forms import  PortForm, EventsForm, CustomerForm,CarsForm
+from ..system.forms import  PortForm, EventsForm, CustomerForm,CarsForm,ProjectDataForm
 from sqlalchemy import or_
 
 searched_blueprint = Blueprint(
@@ -35,8 +35,8 @@ def search(adress):
 
         
 
-        models={1:Customers,2:Events,3:Cars,4:Portfs,5:Users}
-        pages={1:'system.customers',2:'system.events',3:'system.cars',4:'system.portfs',5:'auth.users'}
+        models={1:Customers,2:Events,3:Cars,4:Portfs,5:Departments, 6:Users, 7:ProjectData}
+        pages={1:'system.customers',2:'system.events',3:'system.cars',4:'system.portfs',5:'system.departments',6:'auth.users',7:'system.projectdata'}
 
         for key_model in models:
             model = models[key_model]

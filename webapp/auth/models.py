@@ -1,7 +1,7 @@
 from . import bcrypt, AnonymousUserMixin
 from .. import db
 from datetime import datetime
-from ..system.models import Portfs
+from ..system.models import Portfs, ProjectData
 
 roles_users = db.Table(
     'role_users',
@@ -24,6 +24,8 @@ class Users(db.Model):
     date_added = db.Column(db.DateTime, default=datetime.utcnow)
     password_hash = db.Column(db.String(128))
 
+    projectdata= db.relationship('ProjectData', backref='users')
+
     portfs = db.relationship('Portfs',
                                 secondary=portfs_users, 
                                 backref='portfs')
@@ -35,7 +37,7 @@ class Users(db.Model):
     
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return self.name
 
     def has_role(self, name):
         for role in self.roles:
@@ -75,5 +77,5 @@ class Role(db.Model):
     name = db.Column(db.String(80), unique=True)
 
     def __repr__(self):
-        return '<Role {}>'.format(self.name)
+        return self.name
 

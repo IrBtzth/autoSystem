@@ -1,0 +1,55 @@
+<!--Edit Button-->
+<td>
+<button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#editModal{{our_model.id}}">
+  <ion-icon name="create-outline"></ion-icon>
+</button>
+
+
+<!--Edit Modal-->		
+
+<form class="row g-3" method="POST" action="{{url_for('system.departmentEdit', id=our_model.id)}}">
+<div class="modal fade" id="editModal{{our_model.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+  <div class="modal-content ">
+    <div class="modal-header">
+    <h5 class="modal-title" id="createModalLabel">Edit department</h5>
+    <button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      
+            
+            {{form.hidden_tag()}}
+            <div class="form-group">
+                        
+              {{form.description.label(class="form-control-label")}}
+              {{form.description(class="form-control form-control" , value=our_model.description)}}
+              <br/>
+              
+
+            </div>
+            <div class="modal-footer text-center">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              {{form.submit(class="btn btn-primary")}}
+            </div>
+          
+  </div>
+
+  </div>
+</div>
+</form>
+</td>
+
+<!--Delete Button-->
+<td>
+  
+    <button type="submit" class="btn btn-light" >
+    <a href="{{url_for('system.departmentDelete', id=our_model.id)}}">
+      {{form.hidden_tag()}}
+      <ion-icon name='close'></ion-icon>
+    </a>
+  </button>
+  
+</td>
+

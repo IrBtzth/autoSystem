@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Project Data </h1>
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add project data 
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+<form method="POST" action="{{url_for('system.projectdataAdd')}}">
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Modal</h5>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+					{{form.hidden_tag()}}
+						
+					<div class="form-group">
+						{% set models =
+							{'Cars':[our_cars,'system/tables-header/cars-tables-header.html','system/tables/cars-table.html'],
+							 'Operations Manager':[our_users,'auth/users-tables-header.html','auth/users-table.html'],
+							 'Departments':[our_departments,'system/tables-header/departments-tables-header.html','system/tables/departments-table.html']
+							} 
+						%}
+						
+
+						{%for key in models%}	
+						{%set values=models[key]%}
+						<div class="dropdown">
+							
+							{{key}}:
+							<button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							  </button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+							<div class="dropdown-header">
+								<table class="table table-dropdown">
+									<thead class="thead-light">
+									<tr>
+										<th scope="col">Options</th>
+										{% include values[1] %}
+									</tr>
+									</thead>		
+										{%for our_model in values[0]%}
+									<tbody>
+						
+									<tr>	
+										<td >	
+										<div class="form-check">
+											
+										<input type="checkbox" class="form-check-input" name="{{key}}" value="{{our_model.id}}" onClick="ckChange(this)">
+										<label class="form-check-label" for="dropdownCheck"></label> 
+										
+										</div>
+										</td>
+						
+										{% include values[2]  %}
+								
+									</tr>
+									<script type="text/javascript">
+										function ckChange(el) {
+								var ckName = document.getElementsByName(el.name);
+								for (var i = 0, c; c = ckName[i]; i++) {
+								c.disabled = !(!el.checked || c === el);
+								}
+								}
+								</script>
+									</tbody>
+									{%endfor%}
+									
+									</table>
+						</div>
+						</div>
+						</div>
+						<br/>
+						{%endfor%}
+
+
+					
+						<br/>
+						{{form.solution.label(class="form-control-label")}}
+						{{form.solution(class="form-control form-control")}}
+						<br/>
+						{{form.amount.label(class="form-control-label")}}
+						{{form.amount(class="form-control form-control")}}
+						<br/>
+						{{form.observations.label(class="form-control-label")}}
+						{{form.observations(class="form-control form-control")}}
+						<br/>
+
+					</div>
+					
+					</div>
+
+					<div class="modal-footer text-center">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						{{form.submit(class="btn btn-primary")}}
+					</div>
+
+				
+
+				</div>
+			</div>
+		</div>
+	</form>
+
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Car</th>
+					<th scope="col">Department</th>
+					<th scope="col">Operation Manager</th>
+					<th scope="col">Problem</th>
+					<th scope="col">Solution</th>
+					<th scope="col">Amount</th>
+					<th scope="col">Observations</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+
+			{% for our_model in our_models %}
+				<tbody>
+			
+					<tr>
+						{% include 'system/tables/projectdata-table.html' %}
+						<td>{% include 'system/modals/projectdata-modal-btns.html' %}</td>
+						
+						</tr>
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+	
+			
+
+		
+
+{% endblock %}

@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-primary alert-dismissible show" role="alert">
+		{{message}}
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>	
+
+{% endfor %}
+
+<br/>
+		<h1>Car Data </h1>
+
+        {{value}}
+
+		<br/>
+		<div class="izq">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target='#document-textModal' >
+				Add data car
+				<ion-icon name='document-text'></ion-icon>
+			</button>
+		</div>
+
+
+		<!-- Modal add-->
+        <form method="POST" action="{{url_for('system.addCars')}}">
+		<div class="modal fade" id="document-textModal" tabindex="-1" role="dialog" aria-labelledby="document-textModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title" id="document-textModalLabel">Add car</h5>
+				<button type="button" class="btn btn-light" data-bs-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+		<div class="modal-body">
+	
+				
+						
+                    {{form.hidden_tag()}}
+                    
+                    <div class="form-group">
+                        {{form.carID.label(class="form-control-label")}}
+                        {{form.carID(class="form-control form-control")}}
+                        <br/>
+                        {{form.plate.label(class="form-control-label")}}
+                        {{form.plate(class="form-control form-control")}}
+                        <br/>
+                        {{form.brand.label(class="form-control-label")}}
+                        {{form.brand(class="form-control form-control")}}
+                        <br/>   
+                        {{form.model.label(class="form-control-label")}}
+                        {{form.model(class="form-control form-control")}}
+                        <br/>
+                        {{form.year.label(class="form-control-label")}}
+                        {{form.year(class="form-control form-control")}}
+                        <br/>
+                        {{form.serialBodywork.label(class="form-control-label")}}
+                        {{form.serialBodywork(class="form-control form-control")}}
+                        <br/>
+                        {{form.serialMotor.label(class="form-control-label")}}
+                        {{form.serialMotor(class="form-control form-control")}}
+                        <br/>
+                        {{form.color.label(class="form-control-label")}}
+                        {{form.color(class="form-control form-control")}}
+                        
+                        {{form.problem.label(class="form-control-label")}}
+                        {{form.problem(class="form-control form-control")}}
+                        <br/>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    {{form.submit(class="btn btn-primary")}}
+                </div>
+            
+			</div>
+		</div>
+		</div>
+    </form>
+		<!-- TABLE -->
+
+		<table class="table table-hover table" >
+			<thead class="thead">
+				
+                <tr>
+                    {% include 'system/tables-header/cars-tables-header.html' %}
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            
+                
+			</thead>
+
+			{% for our_model in our_models %}
+				<tbody>
+			
+					<tr>
+						{% include 'system/tables/cars-table.html' %}
+                            
+                        {% include 'system/modals/cars-modals-btn.html' %}
+                        
+                    </tr>
+						
+						
+				</tbody>
+	
+			{%endfor%}
+</table>
+
+
+	
+			
+
+		
+
+{% endblock %}

@@ -7,7 +7,7 @@
 
 <!--Edit Modal-->		
 <td>
-<form class="row g-3" method="POST" action="{{url_for('system.customersEdit', id=our_model.id)}}"></form>
+
 <div class="modal fade" id="editModal{{our_model.id}}" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
   <div class="modal-content ">
@@ -19,7 +19,7 @@
     </div>
     <div class="modal-body">
       
-            
+      <form class="row g-3" method="POST" action="{{url_for('system.customersEdit', id=our_model.id)}}">
             {{form.hidden_tag()}}
             <div class="form-group">
                         
@@ -51,12 +51,13 @@
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               {{form.submit(class="btn btn-primary")}}
             </div>
+          </form>
           
   </div>
 
   </div>
 </div>
-</form>
+
 </td>
 
 <!--Delete Button-->
